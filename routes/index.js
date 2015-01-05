@@ -2,7 +2,7 @@ var express = require('express');
 var stockinfo = require('./stockinfo.js');
 var router = express.Router();
 
-/* GET home page. */
+/* GET Home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'VR Stock Research' });
 });
