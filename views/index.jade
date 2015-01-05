@@ -1,0 +1,55 @@
+extends layout
+
+block content
+
+
+  script(type='text/javascript').
+      $(document).ready(function(){
+      $('.table.table-striped').hide();
+      var t;
+      $('#search').click(function() {
+          t=$("#ticker").val();
+          $.post("/search",{ticker: t}, function(data){
+
+            $("#tbody").empty();
+            var tr,td;
+            for (var i = 0; i < data.length; i++) {
+                tr = $('<tr/>');
+
+                td = $('<td><div><span id="spanp'+ i + '">'+ data[i].name + "</span></div></td>");
+
+
+
+                  tr.append("<td>" + (i+1) + "</td>");
+                tr.append(td);
+                tr.append("<td>" + data[i].value + "</td>");
+
+                $('#tbody').append(tr);
+            }
+              $('.table.table-striped').show();
+              for (var i = 0; i < data.length; i++) {
+              $("#spanp"+i).popover({html: true,
+                    animation: false,
+                    content:data[i].notes,
+                    placement: "bottom",
+                    container:"body",
+                    trigger:"hover click",
+                    });
+                    }
+          });
+
+        });
+
+      });
+  div.container-fluid
+    div.content
+      form.form-search(method="post", id="searchForm")
+          input(id="ticker", type="text", name="SYM" class = "input-medium search-query", placeholder="Stock Symbol")
+          button.btn(id="search", type = "button") Search
+      table.table.table-striped
+        thead
+          tr
+            th #
+            th Name
+            th Value
+          tbody(id="tbody")
