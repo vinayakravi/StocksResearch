@@ -9,14 +9,17 @@ var yUrl    = "http://finance.yahoo.com/q/ks?s=" + ticker;
 var financeDetails = new Array();
 var keyStr         = new Array();
 var stats = new Array();
-var freeCashFlow,shares;
+var freeCashFlow,shares,tmp;
 //
 // The main call to fetch the data, parse it and work on it.
 //
 request(yUrl, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     var $ = cheerio.load(body);
-    price = parseFloat($('.time_rtq_ticker').children().first().text());
+    tmp = $('.time_rtq_ticker').children().first().text();
+    tmp = tmp.replace(",","");
+    price = parseFloat(tmp);
+    console.log(tmp);
     // the keys - We get them from a certain class attribute
     var td = $('.yfnc_tablehead1');
     $(td).each(function(j, val) {
@@ -44,8 +47,8 @@ request(yUrl, function (error, response, body) {
     stats.push({name:"Return On Equity",notes:"good indicator of success, look for greater than 20",value:financeDetails[14]});
     stats.push({name:"% Held by Insiders",notes:"",value:financeDetails[42]});
     stats.push({name:"Current Price",notes:"",value:"$" +price});
-    stats.push({name:"52 week Low",notes:"",value:financeDetails[35]});
-    stats.push({name:"52 week High",notes:"",value:financeDetails[34]});
+    stats.push({name:"52 week Low",notes:"",value:"$"+financeDetails[35]});
+    stats.push({name:"52 week High",notes:"",value:"$"+financeDetails[34]});
     stats.push({name:"Qurterly Revenue Growth",notes:"",value:financeDetails[17]});
 
     callback(null,stats);
