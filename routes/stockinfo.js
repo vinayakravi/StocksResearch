@@ -49,7 +49,8 @@ request(yUrl, function (error, response, body) {
     stats.push({name:"Current Price",notes:"",value:"$" +price});
     stats.push({name:"52 week Low",notes:"",value:"$"+financeDetails[35]});
     stats.push({name:"52 week High",notes:"",value:"$"+financeDetails[34]});
-    stats.push({name:"Qurterly Revenue Growth",notes:"",value:financeDetails[17]});
+    stats.push({name:"Quarterly Revenue Growth",notes:"",value:financeDetails[17]});
+    stats.push({name:"Enterprise Value/ EBITDA",notes:"the lower the better",value:financeDetails[8]});
 
     callback(null,stats);
   }
